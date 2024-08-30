@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sagip_siklab_rescuer/map_screen.dart';
+import 'package:sagip_siklab_rescuer/signup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -36,6 +37,7 @@ class LoginScreen extends StatelessWidget {
                 filled: true,
                 fillColor: Colors.grey[800],
                 hintText: 'Username',
+                hintStyle: const TextStyle(color: Colors.white70),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
@@ -48,6 +50,7 @@ class LoginScreen extends StatelessWidget {
                 filled: true,
                 fillColor: Colors.grey[800],
                 hintText: 'Password',
+                hintStyle: const TextStyle(color: Colors.white70),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
@@ -60,7 +63,7 @@ class LoginScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MapScreen()),
+                  MaterialPageRoute(builder: (context) => const MapScreen()),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -83,7 +86,10 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 20),
             TextButton(
               onPressed: () {
-                // Navigate to SignUp screen
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                  );
               },
               child: const Text(
                 "Don't have account? Sign up.",

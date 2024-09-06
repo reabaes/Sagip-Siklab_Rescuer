@@ -1,102 +1,120 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 class MapScreen extends StatelessWidget {
-   const MapScreen({super.key});
+  final MapController _mapController = MapController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.red,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Image.asset(
+              'assets/text.png', // Path to your PNG logo
+              height: 30.0, // Adjust as needed
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 16.0),
+              child: Chip(
+                label: Text('Online', style: TextStyle(color: Colors.white)),
+                backgroundColor: Colors.green,
+              ),
+            ),
+          ],
+        ),
+        leading: Container(), // Ensure no leading widget (e.g., back arrow)
+      ),
       body: Stack(
         children: [
-          // The map widget goes here, replace with your actual map implementation
-          Container(
-            color: Colors.white,
-            child: const Center(
-              child: Text(
-                'Map Placeholder',
-                style: TextStyle(color: Colors.black),
-              ),
+          FlutterMap(
+            mapController: _mapController,
+            options: MapOptions(
+              initialCenter: LatLng(14.6760, 121.0437), // Center the map on Quezon City
+              initialZoom: 12.0, // Initial zoom level
+              //maxZoom: 16.0, // Limit maximum zoom to avoid showing too much detail
+              //minZoom: 10.0, // Limit minimum zoom to avoid showing areas outside Quezon City
             ),
-          ),
-          const Positioned(
-            top: 50,
-            left: 2,
-            child: Text(
-              'Welcome to SAGIPSIKLAB',
-              style: TextStyle(
-                fontSize: 24,
-                color: Colors.orangeAccent,
-                fontWeight: FontWeight.bold,
+            children: [
+              TileLayer(
+                urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                subdomains: ['a', 'b', 'c'],
               ),
-            ),
+              MarkerLayer(
+                markers: _buildMarkers(),
+              ),
+            ],
           ),
           Positioned(
-            top: 90,
-            right: 20,
-            child: Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Text(
-                'Online',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 130,
-            left: 20,
-            right: 20,
+            top: 100,
+            left: 16,
+            right: 16,
             child: Center(
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Colors.blue,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Text(
-                  'Status: Stand by',
-                  style: TextStyle(color: Colors.white),
+                child: Text(
+                  "Status: Stand by",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: BottomNavigationBar(
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.map),
-                  label: 'Map',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.report),
-                  label: 'Report',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.history),
-                  label: 'Activity',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  label: 'Profile',
-                ),
-              ],
-              type: BottomNavigationBarType.fixed,
-              selectedItemColor: Colors.orangeAccent,
-              backgroundColor: Colors.black,
-              unselectedItemColor: Colors.grey,
-            ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Map',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.report),
+            label: 'Report',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mail),
+            label: 'Activity',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
         ],
       ),
     );
+  }
+
+  List<Marker> _buildMarkers() {
+    // Example markers for fire stations
+    final List<LatLng> fireStationLocations = [
+      LatLng(14.6760, 121.0437), // Example location in Quezon City
+      LatLng(14.6760, 121.0837), // Another location in Quezon City
+      LatLng(14.6760, 121.0237), // Another location in Quezon City
+      LatLng(14.6761, 121.1135), // Another location in Quezon City
+      // Add more locations as needed
+    ];
+
+    return fireStationLocations
+        .map(
+          (location) => Marker(
+            width: 50.0,
+            height: 50.0,
+            point: location,
+            child: Icon(Icons.local_fire_department, color: Colors.red, size: 30.0),
+          ),
+        )
+        .toList();
   }
 }

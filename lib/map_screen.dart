@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 class MapScreen extends StatelessWidget {
+   MapScreen({super.key});
   final MapController _mapController = MapController();
 
   @override
@@ -17,7 +18,7 @@ class MapScreen extends StatelessWidget {
               'assets/text.png', // Path to your PNG logo
               height: 30.0, // Adjust as needed
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(right: 16.0),
               child: Chip(
                 label: Text('Online', style: TextStyle(color: Colors.white)),
@@ -32,7 +33,7 @@ class MapScreen extends StatelessWidget {
         children: [
           FlutterMap(
             mapController: _mapController,
-            options: MapOptions(
+            options: const MapOptions(
               initialCenter: LatLng(14.6760, 121.0437), // Center the map on Quezon City
               initialZoom: 12.0, // Initial zoom level
               //maxZoom: 16.0, // Limit maximum zoom to avoid showing too much detail
@@ -41,7 +42,7 @@ class MapScreen extends StatelessWidget {
             children: [
               TileLayer(
                 urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                subdomains: ['a', 'b', 'c'],
+                subdomains: const ['a', 'b', 'c'],
               ),
               MarkerLayer(
                 markers: _buildMarkers(),
@@ -54,12 +55,12 @@ class MapScreen extends StatelessWidget {
             right: 16,
             child: Center(
               child: Container(
-                padding: EdgeInsets.all(12),
+                padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Colors.blue,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: Text(
+                child: const Text(
                   "Status: Stand by",
                   style: TextStyle(
                     color: Colors.white,
@@ -74,7 +75,7 @@ class MapScreen extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
             label: 'Map',
@@ -99,10 +100,10 @@ class MapScreen extends StatelessWidget {
   List<Marker> _buildMarkers() {
     // Example markers for fire stations
     final List<LatLng> fireStationLocations = [
-      LatLng(14.6760, 121.0437), // Example location in Quezon City
-      LatLng(14.6760, 121.0837), // Another location in Quezon City
-      LatLng(14.6760, 121.0237), // Another location in Quezon City
-      LatLng(14.6761, 121.1135), // Another location in Quezon City
+      const LatLng(14.6760, 121.0437), // Example location in Quezon City
+      const LatLng(14.6760, 121.0837), // Another location in Quezon City
+      const LatLng(14.6760, 121.0237), // Another location in Quezon City
+      const LatLng(14.6761, 121.1135), // Another location in Quezon City
       // Add more locations as needed
     ];
 
@@ -112,7 +113,7 @@ class MapScreen extends StatelessWidget {
             width: 50.0,
             height: 50.0,
             point: location,
-            child: Icon(Icons.local_fire_department, color: Colors.red, size: 30.0),
+            child: const Icon(Icons.local_fire_department, color: Colors.red, size: 30.0),
           ),
         )
         .toList();
